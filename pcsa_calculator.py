@@ -154,11 +154,22 @@ class PcsaCalculator():
     def b2w_matrix(self, vec_k):
         ## 球面座標系でいう θ
         delta = np.arcsin(vec_k[2] / np.linalg.norm(vec_k))
-
-        ## 球面座標系でいう 
-        alpha = np.arccos(vec_k[0] / (np.linalg.norm(vec_k) * np.cos(delta)))
+        if np.isclose(delta, np.radians(90)):
+            delta = 90
+        elif np.isclose(delta, -np.radians(90)):
+            delta = -90
+        buffer = vec_k[0] / (np.linalg.norm(vec_k) * np.cos(delta))
+        
+        if np.isclose(buffer,1.0):
+            buffer = 1.0
+        elif np.isclose(buffer,-1.0):
+            buffer = -1.0
+            
+        ## 球面座標系でいう alpha
+        alpha = np.arccos(buffer)
         if vec_k[1] < 0:
             alpha = 2*np.pi - alpha
+
 
         ## 宇宙機座標系からkベクトルを基準とする座標系に変換する行列
         brw = np.matrix((
@@ -543,9 +554,7 @@ class PcsaCalculator():
         x = np.array(x)
         y = np.array(y)
         z = np.array(z)
-        
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
+
         ax.grid()
         #ax.set_zlabel('z')
 
