@@ -7,7 +7,7 @@ class Satellite(PcsaCalculator):
     
     # 全体の座標系から宇宙機座標系へ
     def W2B(self,vec_sat_r_W, theta,beta,e=None):
-        
+                
         if e == None:
             # x軸方向の単位ベクトル rをθで微分したもの
             ex_B = np.array(
@@ -23,8 +23,6 @@ class Satellite(PcsaCalculator):
         
         return R_GtoL
     
-    def calc_sat_position():
-        pass
     
 
     
